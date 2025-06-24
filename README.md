@@ -3,44 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background: #f9f9f9;
-      margin: 0;
-      padding: 0 20px;
-      color: #333;
-    }
-    h1, h2, h3 {
-      color: #004080;
-    }
-    pre {
-      background: #eee;
-      padding: 10px;
-      border-radius: 5px;
-      overflow-x: auto;
-    }
-    code {
-      background: #e6e6e6;
-      padding: 2px 4px;
-      border-radius: 3px;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-      background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    ul {
-      margin-left: 20px;
-    }
-    a {
-      color: #0066cc;
-    }
-  </style>
 </head>
 <body>
 <div class="container">

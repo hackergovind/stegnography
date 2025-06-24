@@ -1,123 +1,174 @@
-# stegnography
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Steganography Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0 20px;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #004080;
+    }
+    pre {
+      background: #eee;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    code {
+      background: #e6e6e6;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #0066cc;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🕵️‍♂️ Steganography Tool</h1>
+  <p>A comprehensive steganography application that hides encrypted messages in images using LSB embedding, AES-256 encryption, and CRC32 data integrity checks.</p>
 
-STEGANOGRAPHY
-A comprehensive steganography application that allows you to hide encrypted messages in images using LSB (Least Significant Bit) embedding with AES-256 encryption and CRC32 data integrity checks.
+  <h2>🚀 Features</h2>
+  <ul>
+    <li>2-bit LSB embedding in images</li>
+    <li>Optional AES-256 encryption for security</li>
+    <li>CRC32 checksums for data integrity</li>
+    <li>Web and desktop GUI interfaces</li>
+    <li>Supports PNG, JPG, BMP, TIFF (PNG recommended)</li>
+    <li>File size limit: 16MB (web)</li>
+  </ul>
 
-Features
-LSB Steganography: Hide messages in image pixels using 2-bit LSB embedding
-AES-256 Encryption: Optional encryption for maximum security
-Data Integrity: CRC32 checksums to verify data hasn't been corrupted
-Multiple Interfaces: Both web application and desktop GUI
-Support for Multiple Formats: PNG, JPG, JPEG, BMP, TIFF
-File Size Limit: Up to 16MB for web uploads
-Project Structure
-steganography-tool/
+  <h2>📁 Project Structure</h2>
+  <pre><code>steganography-tool/
 ├── app.py                 # Flask web application
-├── main.py               # Main entry point for web app
-├── steganography.py      # Core steganography engine
-├── steganography_gui.py  # Desktop GUI application
-├── pyproject.toml        # Project dependencies
+├── main.py               # Web app entry
+├── steganography.py      # Core engine
+├── steganography_gui.py  # Desktop GUI
+├── pyproject.toml        # Dependencies
 ├── templates/
-│   ├── index.html        # Web interface home page
-│   └── result.html       # Results display page
+│   ├── index.html
+│   └── result.html
 ├── static/
-│   ├── uploads/          # Temporary upload folder
-│   └── processed/        # Processed images folder
-└── README.md            # This file
-Installation
-Install Python 3.11+
+│   ├── uploads/
+│   └── processed/
+└── README.md
+</code></pre>
 
-Install dependencies using uv (recommended) or pip:
-
-# Using uv
+  <h2>⚙️ Installation</h2>
+  <p>Python 3.11+ is required.</p>
+  <pre><code># With uv (recommended)
 uv add pillow pycryptodome numpy flask gunicorn
 
-# Or using pip
+# Or with pip
 pip install pillow pycryptodome numpy flask gunicorn
-Usage
-Web Application
-Start the web server:
+</code></pre>
 
-python main.py
-Open your browser and navigate to:
+  <h2>💻 Usage</h2>
+  <h3>Web Application</h3>
+  <pre><code>python main.py</code></pre>
+  <p>Then visit <code>http://localhost:5000</code> in your browser.</p>
 
-Use the interface to:
+  <h3>Desktop GUI</h3>
+  <pre><code>python steganography_gui.py</code></pre>
 
-Hide Message: Upload an image, enter your secret message, optionally set an encryption key
-Reveal Message: Upload a steganographic image, enter decryption key if used
-Desktop GUI Application
-Run the GUI application:
+  <h2>🔍 How It Works</h2>
+  <h3>LSB Embedding</h3>
+  <p>Uses 2 bits from each RGB pixel to hide binary data with minimal visual change.</p>
 
-python steganography_gui.py
-Use the tabbed interface:
+  <h3>Encryption</h3>
+  <ul>
+    <li>AES-256 (CBC mode)</li>
+    <li>Key auto-padded to 32 bytes</li>
+    <li>Message header includes CRC32 and size</li>
+  </ul>
 
-Hide Message Tab: Select cover image, enter message, set encryption key, choose output location
-Reveal Message Tab: Select steganographic image, enter decryption key, view extracted message
-How It Works
-LSB Steganography
-The tool uses Least Significant Bit embedding to hide data in image pixels. Each pixel channel (R, G, B) can store 2 bits of data in its least significant bits without causing visible changes to the image.
+  <h2>🛡️ Security Features</h2>
+  <ul>
+    <li>AES-256 industry-standard encryption</li>
+    <li>CRC32 for integrity verification</li>
+    <li>Image and key validation</li>
+    <li>PNG recommended to prevent compression artifacts</li>
+  </ul>
 
-Encryption Process
-Message is encrypted using AES-256 in CBC mode (if key provided)
-A header containing message size and CRC32 checksum is created
-Data is converted to binary and embedded in image pixels using LSB
-Modified image is saved as PNG to preserve data integrity
-Extraction Process
-LSB data is extracted from image pixels
-Header is parsed to get message size and expected checksum
-Data integrity is verified using CRC32
-Message is decrypted if encryption key is provided
-Security Features
-AES-256 Encryption: Industry-standard encryption for message protection
-CRC32 Checksums: Detects data corruption or tampering
-Key Padding: Automatic key padding/truncation to 32 bytes for AES-256
-File Validation: Ensures uploaded files are valid images
-API Endpoints (Web App)
-GET / - Main interface
-POST /embed - Hide message in image
-POST /extract - Extract message from image
-GET /download/<filename> - Download steganographic image
-Dependencies
-PIL (Pillow): Image processing
-numpy: Array operations for pixel manipulation
-pycryptodome: AES encryption and cryptographic functions
-Flask: Web framework (for web app)
-tkinter: GUI framework (for desktop app, included with Python)
-gunicorn: WSGI server for production deployment
-Supported Image Formats
-PNG (recommended for steganographic images)
-JPEG/JPG
-BMP
-TIFF
-Note: PNG is recommended for output as it preserves data without compression artifacts.
+  <h2>🌐 API Endpoints (Web App)</h2>
+  <ul>
+    <li><code>GET /</code> - Main interface</li>
+    <li><code>POST /embed</code> - Embed message</li>
+    <li><code>POST /extract</code> - Extract message</li>
+    <li><code>GET /download/&lt;filename&gt;</code> - Download output</li>
+  </ul>
 
-Limitations
-Image must be large enough to hold the message data
-Compressed formats (JPEG) may cause data loss
-Maximum file size: 16MB (web interface)
-Security Considerations
-Use strong encryption keys for sensitive messages
-Keep decryption keys secure and separate from steganographic images
-Avoid editing or compressing steganographic images
-Use PNG format to prevent compression artifacts
-Error Handling
-The application includes comprehensive error handling for:
+  <h2>📦 Dependencies</h2>
+  <ul>
+    <li>Pillow (image processing)</li>
+    <li>Numpy (pixel manipulation)</li>
+    <li>PyCryptodome (AES encryption)</li>
+    <li>Flask (web server)</li>
+    <li>Tkinter (GUI - preinstalled)</li>
+    <li>Gunicorn (deployment)</li>
+  </ul>
 
-Invalid file formats
-Corrupted images
-Insufficient image capacity
-Wrong decryption keys
-Data corruption detection
-Example Usage
-Hiding a Message
-Select a cover image (preferably high resolution)
-Enter your secret message
-Optionally set an encryption key for security
-Generate steganographic image
-Download and share the steganographic image
-Revealing a Message
-Upload the steganographic image
-Enter the decryption key (if message was encrypted)
-Extract and view the hidden message
-License
-This project is open source and available under the MIT License.
+  <h2>⚠️ Limitations</h2>
+  <ul>
+    <li>Image must be large enough to hold data</li>
+    <li>JPEG compression may corrupt data</li>
+    <li>Max upload size: 16MB</li>
+  </ul>
+
+  <h2>🔐 Security Tips</h2>
+  <ul>
+    <li>Use strong encryption keys</li>
+    <li>Keep keys separate from stego images</li>
+    <li>Don't modify stego images post-embedding</li>
+    <li>Use PNG to preserve bit accuracy</li>
+  </ul>
+
+  <h2>❗ Error Handling</h2>
+  <ul>
+    <li>Invalid files</li>
+    <li>Corrupt or unsupported images</li>
+    <li>Insufficient capacity</li>
+    <li>Wrong decryption keys</li>
+    <li>Data integrity failures</li>
+  </ul>
+
+  <h2>🔧 Example</h2>
+  <h3>To Hide a Message</h3>
+  <ol>
+    <li>Choose a high-res image</li>
+    <li>Enter your secret message</li>
+    <li>Set an encryption key (optional)</li>
+    <li>Download the output image</li>
+  </ol>
+
+  <h3>To Reveal a Message</h3>
+  <ol>
+    <li>Upload the stego image</li>
+    <li>Enter the correct decryption key</li>
+    <li>Read the hidden message</li>
+  </ol>
+
+  <h2>📜 License</h2>
+  <p>This project is <strong>open-source</strong> and available under the <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.</p>
+</div>
+</body>
+</html>
